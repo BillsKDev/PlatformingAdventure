@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 
     Rigidbody2D _rb;
     SpriteRenderer _spriteRenderer;
-    Sprite _defaultSprite;
+    Animator _animator;
 
     float _jumpEndTime;
     float _horizontal;
@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _defaultSprite = _spriteRenderer.sprite;
+        _animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -51,14 +51,14 @@ public class Player : MonoBehaviour
 
         _horizontal *= _horizontalVelocity;
         _rb.velocity = new Vector2(_horizontal, vertical);
+
+        UpdateSprite();
     }
 
     void UpdateSprite()
     {
-        if (IsGrounded)
-            _spriteRenderer.sprite = _defaultSprite;
-        else
-            _spriteRenderer.sprite = _jumpSprite;
+        _animator.SetBool("IsGrounded", IsGrounded);
+        _animator.SetFloat("HorizontalSpeed", Mathf.Abs(_horizontal));
 
         if (_horizontal > 0)
             _spriteRenderer.flipX = false;
