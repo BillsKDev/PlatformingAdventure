@@ -4,8 +4,10 @@ public class Player : MonoBehaviour
 {
     [SerializeField] float _jumpVelocity = 5f;
     [SerializeField] float _jumpDuration = 0.5f;
-    [SerializeField] float _horizontalVelocity = 3f;
+    [SerializeField] float _maxHorizontalSpeed = 5f;
     [SerializeField] float _footOffset = 0.35f;
+    [SerializeField] float _acceleration = 10f;
+    [SerializeField] float _snowAcceleration = 1f;
     [SerializeField] Sprite _jumpSprite;
     [SerializeField] LayerMask _layerMask;
 
@@ -18,6 +20,7 @@ public class Player : MonoBehaviour
     float _horizontal;
     int _jumpsRemaining;
     bool IsGrounded;
+    bool IsOnSnow;
 
     void OnDrawGizmos()
     {
@@ -48,7 +51,7 @@ public class Player : MonoBehaviour
     {
         UpdateGrounding();
 
-        _horizontal = Input.GetAxis("Horizontal");
+        var horizontalInput = Input.GetAxis("Horizontal");
         var vertical = _rb.velocity.y;
 
         if (Input.GetButtonDown("Jump") && _jumpsRemaining > 0)
@@ -62,8 +65,11 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Jump") && _jumpEndTime > Time.time)
             vertical = _jumpVelocity;
 
-        _horizontal *= _horizontalVelocity;
+        var desiredHorizontal = horizontalInput * _maxHorizontalSpeed;
+        var groundAcceleration = IsOnSnow ? _snowAcceleration : _acceleration;
+        _horizontal = Mathf.Lerp(_horizontal, desiredHorizontal, Time.deltaTime * groundAcceleration);
         _rb.velocity = new Vector2(_horizontal, vertical);
+
 
         UpdateSprite();
     }
@@ -71,24 +77,34 @@ public class Player : MonoBehaviour
     void UpdateGrounding()
     {
         IsGrounded = false;
+        IsOnSnow = false;
         
         //Check center
         Vector2 origin = new Vector2(transform.position.x, transform.position.y - _spriteRenderer.bounds.extents.y);
         RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _layerMask);
         if (hit.collider)
+        {
             IsGrounded = true;
+            IsOnSnow = hit.collider.CompareTag("Snow");
+        }
 
         //Check left
         origin = new Vector2(transform.position.x - _footOffset, transform.position.y - _spriteRenderer.bounds.extents.y);
         hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _layerMask);
         if (hit.collider)
+        {
             IsGrounded = true;
+            IsOnSnow = hit.collider.CompareTag("Snow");
+        }
 
         //Check right
         origin = new Vector2(transform.position.x + _footOffset, transform.position.y - _spriteRenderer.bounds.extents.y);
         hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _layerMask);
         if (hit.collider)
+        {
             IsGrounded = true;
+            IsOnSnow = hit.collider.CompareTag("Snow");
+        }
 
         if (IsGrounded && _rb.velocity.y <= 0)
             _jumpsRemaining = 2;
