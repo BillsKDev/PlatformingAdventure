@@ -67,9 +67,9 @@ public class Player : MonoBehaviour
 
         var desiredHorizontal = horizontalInput * _maxHorizontalSpeed;
         var groundAcceleration = IsOnSnow ? _snowAcceleration : _acceleration;
+
         _horizontal = Mathf.Lerp(_horizontal, desiredHorizontal, Time.deltaTime * groundAcceleration);
         _rb.velocity = new Vector2(_horizontal, vertical);
-
 
         UpdateSprite();
     }
