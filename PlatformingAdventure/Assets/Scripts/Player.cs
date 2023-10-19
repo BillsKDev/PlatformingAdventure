@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class Player : MonoBehaviour
     SpriteRenderer _spriteRenderer;
     Animator _animator;
     AudioSource _audioSource;
+    PlayerInput _playerInput;
 
     float _jumpEndTime;
     float _horizontal;
@@ -45,16 +47,17 @@ public class Player : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
+        _playerInput = GetComponent<PlayerInput>();
     }
 
     void Update()
     {
         UpdateGrounding();
 
-        var horizontalInput = Input.GetAxis("Horizontal");
+        var horizontalInput = _playerInput.actions["Move"].ReadValue<Vector2>().x;
         var vertical = _rb.velocity.y;
 
-        if (Input.GetButtonDown("Jump") && _jumpsRemaining > 0)
+        if (_playerInput.actions["Jump"].WasPerformedThisFrame() && _jumpsRemaining > 0)
         {
             _jumpEndTime = Time.time + _jumpDuration;
             _jumpsRemaining--;
@@ -62,7 +65,7 @@ public class Player : MonoBehaviour
             _audioSource.Play();
         }
 
-        if (Input.GetButtonDown("Jump") && _jumpEndTime > Time.time)
+        if (_playerInput.actions["Jump"].ReadValue<float>() > 0 && _jumpEndTime > Time.time)
             vertical = _jumpVelocity;
 
         var desiredHorizontal = horizontalInput * _maxHorizontalSpeed;
