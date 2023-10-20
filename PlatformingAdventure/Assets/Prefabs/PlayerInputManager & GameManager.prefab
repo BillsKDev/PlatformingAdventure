@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5334841755738677421}
   - component: {fileID: 8506333255669724103}
+  - component: {fileID: 4703186138096806242}
   m_Layer: 0
-  m_Name: PlayerInputManager
+  m_Name: PlayerInputManager & GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,3 +77,15 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &4703186138096806242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7560186910626159107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1635f6675a1a5954a995c819da64b455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

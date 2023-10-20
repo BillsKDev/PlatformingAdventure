@@ -2233,7 +2233,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7560186910626159107, guid: 1e1dacf8882ec2e4181827795caa3f5b, type: 3}
       propertyPath: m_Name
-      value: PlayerInputManager
+      value: PlayerInputManager & GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506333255669724103, guid: 1e1dacf8882ec2e4181827795caa3f5b, type: 3}
+      propertyPath: m_NotificationBehavior
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

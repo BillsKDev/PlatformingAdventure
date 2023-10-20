@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,13 +14,14 @@ public class Player : MonoBehaviour
     [SerializeField] LayerMask _layerMask;
     [SerializeField] AudioClip _coinSFX;
 
-    public int Coins {get ; private set;}
+    public int Coins { get => _playerData.Coins ; private set => _playerData.Coins = value; }
 
     Rigidbody2D _rb;
     SpriteRenderer _spriteRenderer;
     Animator _animator;
     AudioSource _audioSource;
     PlayerInput _playerInput;
+    PlayerData _playerData = new PlayerData();
 
     float _jumpEndTime;
     float _horizontal;
@@ -135,4 +137,16 @@ public class Player : MonoBehaviour
         Coins++;
         _audioSource.PlayOneShot(_coinSFX);
     }
+
+    internal void Bind(PlayerData playerData)
+    {
+        _playerData = playerData;
+    }
+}
+
+[Serializable]
+public class PlayerData
+{
+    public int Coins;
+    public int Health;
 }
