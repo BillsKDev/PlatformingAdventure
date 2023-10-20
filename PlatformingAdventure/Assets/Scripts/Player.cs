@@ -11,6 +11,9 @@ public class Player : MonoBehaviour
     [SerializeField] float _snowAcceleration = 1f;
     [SerializeField] Sprite _jumpSprite;
     [SerializeField] LayerMask _layerMask;
+    [SerializeField] AudioClip _coinSFX;
+
+    public int Coins {get ; private set;}
 
     Rigidbody2D _rb;
     SpriteRenderer _spriteRenderer;
@@ -48,6 +51,8 @@ public class Player : MonoBehaviour
         _animator = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
         _playerInput = GetComponent<PlayerInput>();
+
+        FindObjectOfType<PlayerCanvas>().Bind(this);
     }
 
     void Update()
@@ -123,5 +128,11 @@ public class Player : MonoBehaviour
             _spriteRenderer.flipX = false;
         else if (_horizontal < 0)
             _spriteRenderer.flipX = true;
+    }
+
+    public void AddPoint()
+    {
+        Coins++;
+        _audioSource.PlayOneShot(_coinSFX);
     }
 }

@@ -24,18 +24,18 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Fire",
+                    "name": "Jump",
                     "type": "Button",
-                    "id": "8f8bba5f-a0d8-44f7-a9bb-b033e6844315",
+                    "id": "3bfe90f7-35bd-4297-ad38-23f2eaf61b31",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Jump",
+                    "name": "Fire",
                     "type": "Button",
-                    "id": "3bfe90f7-35bd-4297-ad38-23f2eaf61b31",
+                    "id": "8f8bba5f-a0d8-44f7-a9bb-b033e6844315",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -167,7 +167,7 @@
                 {
                     "name": "",
                     "id": "3ea4d645-4504-4529-b061-ab81934c3752",
-                    "path": "<Joystick>/stick",
+                    "path": "<DualShockGamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick",
@@ -267,6 +267,17 @@
                     "name": "",
                     "id": "475c3f6a-b3b1-4f2d-82db-ee54d3f054d7",
                     "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "944f95dd-ad7d-4382-a894-5a50a82f68e9",
+                    "path": "<DualShockGamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

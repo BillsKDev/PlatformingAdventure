@@ -574,6 +574,7 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 55
+  _coinSFX: {fileID: 8300000, guid: 243778dda04f874458e6c9d162b99239, type: 3}
 --- !u!95 &2136857521892429978
 Animator:
   serializedVersion: 5
