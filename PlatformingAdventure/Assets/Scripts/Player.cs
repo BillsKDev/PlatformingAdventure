@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -17,6 +18,10 @@ public class Player : MonoBehaviour
     [SerializeField] AudioClip _hurtSFX;
 
     public int Coins { get => _playerData.Coins ; private set => _playerData.Coins = value; }
+    public int Health { get => _playerData.Health; }
+
+    public event Action CoinsChanged;
+    public event Action HealthChanged;
 
     Rigidbody2D _rb;
     SpriteRenderer _spriteRenderer;
@@ -137,6 +142,7 @@ public class Player : MonoBehaviour
     public void AddPoint()
     {
         Coins++;
+        CoinsChanged?.Invoke();
         _audioSource.PlayOneShot(_coinSFX);
     }
 
@@ -154,6 +160,7 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene(0);
             return;
         }
+        HealthChanged?.Invoke();
         _rb.AddForce(-hitNormal * _knockBackVelocity);
         _audioSource.PlayOneShot(_hurtSFX);
     }
