@@ -570,11 +570,13 @@ MonoBehaviour:
   _footOffset: 0
   _acceleration: 10
   _snowAcceleration: 1
+  _knockBackVelocity: 250
   _jumpSprite: {fileID: 21300000, guid: 1506e4b03eea8c543a489f336803fa8b, type: 3}
   _layerMask:
     serializedVersion: 2
     m_Bits: 55
   _coinSFX: {fileID: 8300000, guid: 243778dda04f874458e6c9d162b99239, type: 3}
+  _hurtSFX: {fileID: 8300000, guid: 7145ab1d0a4f6d4438b7c9b4aaa59d98, type: 3}
 --- !u!95 &2136857521892429978
 Animator:
   serializedVersion: 5

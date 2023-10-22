@@ -1,6 +1,6 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -10,9 +10,11 @@ public class Player : MonoBehaviour
     [SerializeField] float _footOffset = 0.35f;
     [SerializeField] float _acceleration = 10f;
     [SerializeField] float _snowAcceleration = 1f;
+    [SerializeField] float _knockBackVelocity = 400f;
     [SerializeField] Sprite _jumpSprite;
     [SerializeField] LayerMask _layerMask;
     [SerializeField] AudioClip _coinSFX;
+    [SerializeField] AudioClip _hurtSFX;
 
     public int Coins { get => _playerData.Coins ; private set => _playerData.Coins = value; }
 
@@ -138,15 +140,21 @@ public class Player : MonoBehaviour
         _audioSource.PlayOneShot(_coinSFX);
     }
 
-    internal void Bind(PlayerData playerData)
+    public void Bind(PlayerData playerData)
     {
         _playerData = playerData;
     }
-}
 
-[Serializable]
-public class PlayerData
-{
-    public int Coins;
-    public int Health;
+    public void TakeDamage(Vector2 hitNormal)
+    {
+        _playerData.Health--;
+
+        if (_playerData.Health <= 0)
+        {
+            SceneManager.LoadScene(0);
+            return;
+        }
+        _rb.AddForce(-hitNormal * _knockBackVelocity);
+        _audioSource.PlayOneShot(_hurtSFX);
+    }
 }
