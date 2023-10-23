@@ -164,4 +164,9 @@ public class Player : MonoBehaviour
         _rb.AddForce(-hitNormal * _knockBackVelocity);
         _audioSource.PlayOneShot(_hurtSFX);
     }
+
+    public void StopJump()
+    {
+        _jumpEndTime = Time.time;
+    }
 }
