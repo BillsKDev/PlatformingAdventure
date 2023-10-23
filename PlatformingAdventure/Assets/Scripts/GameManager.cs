@@ -1,12 +1,10 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] List<PlayerData> _playerDatas = new List<PlayerData>();
-
+    [SerializeField] GameData _gameData;
     public static GameManager Instance { get; private set; }
 
     PlayerInputManager _playerInputManager;
@@ -31,11 +29,27 @@ public class GameManager : MonoBehaviour
     void HandleSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
         if (arg0.name == "Menu")
-        {
             _playerInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersManually;
-        }
         else
+        {
             _playerInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersWhenButtonIsPressed;
+            SaveGame();
+        }
+
+    }
+
+    void SaveGame()
+    {
+        string text = JsonUtility.ToJson(_gameData);
+        PlayerPrefs.SetString("Game1", text);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadGame()
+    {
+        string text = PlayerPrefs.GetString("Game1");
+        _gameData = JsonUtility.FromJson<GameData>(text);
+        SceneManager.LoadScene("Level 1");
     }
 
     void HandlePlayerJoined(PlayerInput playerInput)
@@ -48,11 +62,20 @@ public class GameManager : MonoBehaviour
 
     PlayerData GetPlayerData(int playerIndex)
     {
-        if (_playerDatas.Count <= playerIndex)
+        if (_gameData.PlayerDatas.Count <= playerIndex)
         {
             var playerData = new PlayerData();
-            _playerDatas.Add(playerData);
+            _gameData.PlayerDatas.Add(playerData);
         }
-        return _playerDatas[playerIndex];
+        return _gameData.PlayerDatas[playerIndex];
     }
+
+    public void NewGame()
+    {
+        Debug.Log("New Game Called");
+        _gameData = new GameData();
+        SceneManager.LoadScene("Level 1");
+    }
+
+    
 }
