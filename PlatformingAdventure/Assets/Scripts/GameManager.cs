@@ -50,13 +50,13 @@ public class GameManager : MonoBehaviour
     {
         string text = JsonUtility.ToJson(_gameData);
 
+        PlayerPrefs.SetString(_gameData.GameName, text);
+
         if (AllGameNames.Contains(_gameData.GameName) == false)
             AllGameNames.Add(_gameData.GameName);
 
         string commaSeperatedGameNames = string.Join(",", AllGameNames);
-
         PlayerPrefs.SetString("AllGameNames", commaSeperatedGameNames);
-        PlayerPrefs.SetString(_gameData.GameName, text);
         PlayerPrefs.Save();
     }
 
@@ -93,5 +93,13 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Level 1");
     }
 
+    public void DeleteGame(string gameName)
+    {
+        PlayerPrefs.DeleteKey(gameName);
+        AllGameNames.Remove(gameName);
 
+        string commaSeperatedGameNames = string.Join(",", AllGameNames);
+        PlayerPrefs.SetString("AllGameNames", commaSeperatedGameNames);
+        PlayerPrefs.Save();
+    }
 }
