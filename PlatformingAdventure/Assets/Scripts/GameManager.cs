@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
         string commaSeparatedList = PlayerPrefs.GetString("AllGameNames");
         Debug.Log(commaSeparatedList);
         AllGameNames = commaSeparatedList.Split(",").ToList();
+        AllGameNames.Remove("");
     }
 
     void HandleSceneLoaded(Scene arg0, LoadSceneMode arg1)
