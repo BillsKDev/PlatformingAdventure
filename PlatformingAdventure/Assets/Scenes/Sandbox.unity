@@ -1943,10 +1943,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2136857521892429978, guid: 6fe8d340cc44ce54b822c10629ea5392, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 2179086835153813229, guid: 6fe8d340cc44ce54b822c10629ea5392, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1986,6 +1982,14 @@ PrefabInstance:
     - target: {fileID: 2179086835153813229, guid: 6fe8d340cc44ce54b822c10629ea5392, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4497738216800742315, guid: 6fe8d340cc44ce54b822c10629ea5392, type: 3}
+      propertyPath: _acceleration
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619452415547211910, guid: 6fe8d340cc44ce54b822c10629ea5392, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8463712629244373872, guid: 6fe8d340cc44ce54b822c10629ea5392, type: 3}
       propertyPath: m_Name
@@ -2972,6 +2976,10 @@ PrefabInstance:
     - target: {fileID: 3995600693608288643, guid: adf0139e41f0d3f47867e81c12a3578e, type: 3}
       propertyPath: m_Name
       value: Moving Platform 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3995600693608288643, guid: adf0139e41f0d3f47867e81c12a3578e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

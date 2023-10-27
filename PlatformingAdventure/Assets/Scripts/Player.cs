@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     [SerializeField] AudioClip _coinSFX;
     [SerializeField] AudioClip _hurtSFX;
 
-    public int Coins { get => _playerData.Coins ; private set => _playerData.Coins = value; }
+    public int Coins { get => _playerData.Coins; private set => _playerData.Coins = value; }
     public int Health { get => _playerData.Health; }
 
     public event Action CoinsChanged;
@@ -57,7 +57,7 @@ public class Player : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInChildren<Animator>();
         _audioSource = GetComponent<AudioSource>();
         _playerInput = GetComponent<PlayerInput>();
 
@@ -85,17 +85,30 @@ public class Player : MonoBehaviour
         var desiredHorizontal = horizontalInput * _maxHorizontalSpeed;
         var groundAcceleration = IsOnSnow ? _snowAcceleration : _acceleration;
 
-        _horizontal = Mathf.Lerp(_horizontal, desiredHorizontal, Time.deltaTime * groundAcceleration);
+        //_horizontal = Mathf.Lerp(_horizontal, desiredHorizontal, Time.deltaTime * groundAcceleration);
+
+        if (desiredHorizontal > _horizontal)
+        {
+            _horizontal += _acceleration * Time.deltaTime;
+            if (_horizontal > desiredHorizontal)
+                _horizontal = desiredHorizontal;
+        }
+        else if (desiredHorizontal < _horizontal)
+        {
+            _horizontal -= _acceleration * Time.deltaTime;
+            if (_horizontal < desiredHorizontal)
+                _horizontal = desiredHorizontal;
+        }
         _rb.velocity = new Vector2(_horizontal, vertical);
 
-        UpdateSprite();
+        UpdateSpriteAndAnimation();
     }
 
     void UpdateGrounding()
     {
         IsGrounded = false;
         IsOnSnow = false;
-        
+
         //Check center
         Vector2 origin = new Vector2(transform.position.x, transform.position.y - _spriteRenderer.bounds.extents.y);
         RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _layerMask);
@@ -128,15 +141,15 @@ public class Player : MonoBehaviour
 
     }
 
-    void UpdateSprite()
+    void UpdateSpriteAndAnimation()
     {
-        _animator.SetBool("IsGrounded", IsGrounded);
-        _animator.SetFloat("HorizontalSpeed", Mathf.Abs(_horizontal));
+        _animator.SetBool("Jump", !IsGrounded);
+        _animator.SetBool("Move", _horizontal != 0);
 
         if (_horizontal > 0)
-            _spriteRenderer.flipX = false;
+            _animator.transform.rotation = Quaternion.identity;
         else if (_horizontal < 0)
-            _spriteRenderer.flipX = true;
+            _animator.transform.rotation = Quaternion.Euler(0, 180, 0);
     }
 
     public void AddPoint()
