@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 2511827537035287451}
   - component: {fileID: 1306071443232307423}
   - component: {fileID: 916611701964375157}
+  - component: {fileID: 2880060744468710320}
+  - component: {fileID: 3128019687712911990}
   m_Layer: 0
   m_Name: Ladybug
   m_TagString: Untagged
@@ -158,6 +160,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 0.5
   _raycastDistance: 0.1
+  _forwardRaycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 55
 --- !u!50 &916611701964375157
 Rigidbody2D:
   serializedVersion: 4
@@ -185,3 +190,30 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &2880060744468710320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1144893188475372314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e50328ec0cc964a81bb142e70f8c39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ignoreFromTop: 1
+--- !u!114 &3128019687712911990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1144893188475372314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5bb402db0443104ead5f102446c5e29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onlyFromTop: 1
+  _bounciness: 200
