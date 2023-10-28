@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Ladybug : MonoBehaviour, ITakeLaserDamage
+public class Ladybug : MonoBehaviour, ITakeLaserDamage, ITakeDamage
 {
     [SerializeField] float _speed = 1f;
     [SerializeField] float _raycastDistance = 0.2f;
@@ -87,5 +87,10 @@ public class Ladybug : MonoBehaviour, ITakeLaserDamage
             _spriteRenderer.flipX = _direction == Vector2.right;
             return;
         }
+    }
+
+    public void TakeDamage()
+    {
+        gameObject.SetActive(false);
     }
 }

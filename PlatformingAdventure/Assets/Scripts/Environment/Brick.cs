@@ -1,9 +1,10 @@
 using UnityEngine;
 
-public class Brick : MonoBehaviour, ITakeLaserDamage
+public class Brick : MonoBehaviour, ITakeLaserDamage, ITakeDamage
 {
     [SerializeField] ParticleSystem _brickParticles;
     [SerializeField] float _laserDestructionTime = 1f;
+    [SerializeField] int _shotsToDestroy = 3;
     SpriteRenderer _spriteRenderer;
     float _takenDamageTime;
     float _resetColorTime;
@@ -41,6 +42,12 @@ public class Brick : MonoBehaviour, ITakeLaserDamage
         _resetColorTime = Time.time + 0.1f;
         _takenDamageTime += Time.deltaTime;
         if (_takenDamageTime > _laserDestructionTime) Explode();
+    }
+
+    public void TakeDamage()
+    {
+        _takenDamageTime += _laserDestructionTime / _shotsToDestroy;
+        if(_takenDamageTime >= _laserDestructionTime) Explode();
     }
 
     void Update()
