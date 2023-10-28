@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
 
     public int Coins { get => _playerData.Coins; private set => _playerData.Coins = value; }
     public int Health { get => _playerData.Health; }
+    public Vector2 Direction { get; private set; } = Vector2.right;
 
     public event Action CoinsChanged;
     public event Action HealthChanged;
@@ -101,7 +102,8 @@ public class Player : MonoBehaviour
         }
         _rb.velocity = new Vector2(_horizontal, vertical);
 
-        UpdateSpriteAndAnimation();
+        UpdateAnimation();
+        UpdateDirection();
     }
 
     void UpdateGrounding()
@@ -141,15 +143,24 @@ public class Player : MonoBehaviour
 
     }
 
-    void UpdateSpriteAndAnimation()
+    void UpdateAnimation()
     {
         _animator.SetBool("Jump", !IsGrounded);
         _animator.SetBool("Move", _horizontal != 0);
+    }
 
+    private void UpdateDirection()
+    {
         if (_horizontal > 0)
+        {
             _animator.transform.rotation = Quaternion.identity;
+            Direction = Vector2.right;
+        }
         else if (_horizontal < 0)
+        {
             _animator.transform.rotation = Quaternion.Euler(0, 180, 0);
+            Direction = Vector2.left;
+        }
     }
 
     public void AddPoint()
