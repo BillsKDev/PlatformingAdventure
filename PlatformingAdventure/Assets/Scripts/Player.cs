@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -64,6 +65,10 @@ public class Player : MonoBehaviour
 
         FindObjectOfType<PlayerCanvas>().Bind(this);
     }
+
+    void OnEnable() => FindObjectOfType<CinemachineTargetGroup>()?.AddMember(transform, 1f, 1f);
+    void OnDisable() => FindObjectOfType<CinemachineTargetGroup>()?.RemoveMember(transform);
+
 
     void Update()
     {
