@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 5334841755738677421}
   - component: {fileID: 8506333255669724103}
   - component: {fileID: 4703186138096806242}
+  - component: {fileID: 3464239383722348578}
   m_Layer: 0
-  m_Name: PlayerInputManager & GameManager
+  m_Name: Managers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89,4 +90,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1635f6675a1a5954a995c819da64b455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerDatas: []
+  _gameData:
+    PlayerDatas: []
+    GameName: 
+  AllGameNames: []
+--- !u!114 &3464239383722348578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7560186910626159107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 870d55adaeccdc040b290600603bd15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _blasterShotPrefab: {fileID: 3852269383957858801, guid: 970675857e2a4664cbcafab46dc0e97a, type: 3}
+  _blasterImpactExplosionPrefab: {fileID: 1209158962792690687, guid: 1d82c2e25fed8fc458376d6c6e0ab0ac, type: 3}

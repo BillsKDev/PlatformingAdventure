@@ -69,7 +69,6 @@ public class Player : MonoBehaviour
     void OnEnable() => FindObjectOfType<CinemachineTargetGroup>()?.AddMember(transform, 1f, 1f);
     void OnDisable() => FindObjectOfType<CinemachineTargetGroup>()?.RemoveMember(transform);
 
-
     void Update()
     {
         UpdateGrounding();
