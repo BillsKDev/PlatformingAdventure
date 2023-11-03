@@ -404,6 +404,7 @@ GameObject:
   - component: {fileID: 2692607445788739013}
   - component: {fileID: 3703415315012637803}
   - component: {fileID: 2499819113370013890}
+  - component: {fileID: 4859967589531743319}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -640,6 +641,8 @@ MonoBehaviour:
     m_Bits: 55
   _coinSFX: {fileID: 8300000, guid: 243778dda04f874458e6c9d162b99239, type: 3}
   _hurtSFX: {fileID: 8300000, guid: 7145ab1d0a4f6d4438b7c9b4aaa59d98, type: 3}
+  _standingCollider: {fileID: 6872942746756048759}
+  _duckCollider: {fileID: 4859967589531743319}
 --- !u!70 &6872942746756048759
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -813,8 +816,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078b9bd5746066a4c82431408deb53bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _blasterShotPrefab: {fileID: 3852269383957858801, guid: 970675857e2a4664cbcafab46dc0e97a, type: 3}
   _firePoint: {fileID: 8396305590396966368}
+--- !u!70 &4859967589531743319
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8463712629244373872}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.4}
+  m_Size: {x: 0.75, y: 1.2}
+  m_Direction: 0
 --- !u!1001 &2139972300871723518
 PrefabInstance:
   m_ObjectHideFlags: 0

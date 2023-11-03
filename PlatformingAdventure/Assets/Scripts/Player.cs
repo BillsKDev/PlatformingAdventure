@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     [SerializeField] LayerMask _layerMask;
     [SerializeField] AudioClip _coinSFX;
     [SerializeField] AudioClip _hurtSFX;
+    [SerializeField] Collider2D _standingCollider;
+    [SerializeField] Collider2D _duckCollider;
 
     public int Coins { get => _playerData.Coins; private set => _playerData.Coins = value; }
     public int Health { get => _playerData.Health; }
@@ -73,7 +75,10 @@ public class Player : MonoBehaviour
     {
         UpdateGrounding();
 
-        var horizontalInput = _playerInput.actions["Move"].ReadValue<Vector2>().x;
+        var input = _playerInput.actions["Move"].ReadValue<Vector2>();
+        var horizontalInput = input.x;
+        var verticalInput = input.y;
+
         var vertical = _rb.velocity.y;
 
         if (_playerInput.actions["Jump"].WasPerformedThisFrame() && _jumpsRemaining > 0)
@@ -88,19 +93,27 @@ public class Player : MonoBehaviour
             vertical = _jumpVelocity;
 
         var desiredHorizontal = horizontalInput * _maxHorizontalSpeed;
-        var groundAcceleration = IsOnSnow ? _snowAcceleration : _acceleration;
+        var acceleration = IsOnSnow ? _snowAcceleration : _acceleration;
+
+        _animator.SetBool("Duck", verticalInput < 0);
+        var isDucking = _animator.GetBool("IsDucking");
+        if (isDucking)
+            desiredHorizontal = 0;
+
+        _duckCollider.enabled = isDucking;
+        _standingCollider.enabled = !isDucking;
 
         //_horizontal = Mathf.Lerp(_horizontal, desiredHorizontal, Time.deltaTime * groundAcceleration);
 
         if (desiredHorizontal > _horizontal)
         {
-            _horizontal += _acceleration * Time.deltaTime;
+            _horizontal += acceleration * Time.deltaTime;
             if (_horizontal > desiredHorizontal)
                 _horizontal = desiredHorizontal;
         }
         else if (desiredHorizontal < _horizontal)
         {
-            _horizontal -= _acceleration * Time.deltaTime;
+            _horizontal -= acceleration * Time.deltaTime;
             if (_horizontal < desiredHorizontal)
                 _horizontal = desiredHorizontal;
         }
@@ -153,7 +166,7 @@ public class Player : MonoBehaviour
         _animator.SetBool("Move", _horizontal != 0);
     }
 
-    private void UpdateDirection()
+    void UpdateDirection()
     {
         if (_horizontal > 0)
         {
