@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class Dog : MonoBehaviour, ITakeDamage
 {
-    public void Shoot()
+    void Start()
     {
-
+        GetComponentInChildren<ShootAnimationWrapper>().OnShoot += Shoot;
     }
+    void Shoot() => Debug.Log("Shooting");
 
     public void TakeDamage()
     {
