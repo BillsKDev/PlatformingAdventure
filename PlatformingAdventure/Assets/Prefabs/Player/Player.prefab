@@ -403,7 +403,6 @@ GameObject:
   - component: {fileID: 6872942746756048759}
   - component: {fileID: 2692607445788739013}
   - component: {fileID: 3703415315012637803}
-  - component: {fileID: 2499819113370013890}
   - component: {fileID: 4859967589531743319}
   - component: {fileID: 7652052439669990423}
   m_Layer: 6
@@ -805,19 +804,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 5734829112792275583}
---- !u!114 &2499819113370013890
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8463712629244373872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 078b9bd5746066a4c82431408deb53bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _firePoint: {fileID: 8396305590396966368}
 --- !u!70 &4859967589531743319
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -905,6 +891,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2179086835153813229}
     m_Modifications:
+    - target: {fileID: 1582240137606865927, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}
+      propertyPath: m_Name
+      value: Blaster
+      objectReference: {fileID: 0}
     - target: {fileID: 4283367920542834431, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -974,13 +964,34 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1776174814450263652, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8396305590396966368}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1582240137606865927, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2596821100678286149}
   m_SourcePrefab: {fileID: 100100000, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}
 --- !u!4 &366068023308570522 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1776174814450263652, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}
   m_PrefabInstance: {fileID: 2139972300871723518}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &596597747571641849 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1582240137606865927, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}
+  m_PrefabInstance: {fileID: 2139972300871723518}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2596821100678286149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596597747571641849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 078b9bd5746066a4c82431408deb53bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _firePoint: {fileID: 8396305590396966368}
 --- !u!4 &1793313325562768575 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 383251888667542849, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}

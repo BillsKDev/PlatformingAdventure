@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class Key : MonoBehaviour
+public class Key : MonoBehaviour, IItem
 {
     [SerializeField] float _useRange = 1f;
 

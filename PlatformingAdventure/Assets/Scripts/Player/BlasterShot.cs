@@ -5,13 +5,14 @@ public class BlasterShot : MonoBehaviour
 {
     [SerializeField] float _speed = 8f;
     [SerializeField] float _maxLifetime = 4f;
-    
+
 
     Rigidbody2D _rb;
     Vector2 _direction = Vector2.right;
     ObjectPool<BlasterShot> _pool;
 
     float _selfDestructTime;
+    bool _exploded;
 
     void Awake()
     {
@@ -31,6 +32,7 @@ public class BlasterShot : MonoBehaviour
 
     public void Launch(Vector2 direction, Vector2 position)
     {
+        _exploded = false;
         _direction = direction;
         transform.rotation = _direction == Vector2.left ? Quaternion.Euler(0, 180, 0) : Quaternion.identity;
         transform.position = position;
@@ -43,12 +45,16 @@ public class BlasterShot : MonoBehaviour
         if (damageable != null)
             damageable.TakeDamage();
 
-        PoolManager.Instance.GetBlasterExplosion(collision.contacts[0].point);
+        if (_exploded == false)
+        {
+            _exploded = true;
+            PoolManager.Instance.GetBlasterExplosion(collision.contacts[0].point);
+            SelfDestruct();
+        }
 
-        SelfDestruct();
     }
 
-    public  void SetPool(ObjectPool<BlasterShot> pool)
+    public void SetPool(ObjectPool<BlasterShot> pool)
     {
         _pool = pool;
     }

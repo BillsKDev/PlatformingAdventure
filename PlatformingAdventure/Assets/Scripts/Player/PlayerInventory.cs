@@ -6,8 +6,8 @@ public class PlayerInventory : MonoBehaviour
 {
     [SerializeField] Transform ItemPoint;
 
-    Key EquippedKey => _items.Count >= _currentItemIndex ? _items[_currentItemIndex] : null;
-    List<Key> _items = new List<Key>();
+    IItem EquippedItem => _items.Count >= _currentItemIndex ? _items[_currentItemIndex] : null;
+    List<IItem> _items = new List<IItem>();
     PlayerInput _playerInput;
 
     int _currentItemIndex = 0;
@@ -17,6 +17,9 @@ public class PlayerInventory : MonoBehaviour
         _playerInput = GetComponent<PlayerInput>();
         _playerInput.actions["Fire"].performed += UseEquippedItem;
         _playerInput.actions["EquipNext"].performed += EquipNext;
+
+        foreach (var item in GetComponentsInChildren<IItem>())
+            Pickup(item);
     }
 
     void EquipNext(InputAction.CallbackContext context)
@@ -35,16 +38,20 @@ public class PlayerInventory : MonoBehaviour
 
     void UseEquippedItem(InputAction.CallbackContext context)
     {
-        if (EquippedKey)
-            EquippedKey.Use();
+        if (EquippedItem != null)
+            EquippedItem.Use();
     }
 
-    public void Pickup(Key key)
+    public void Pickup(IItem item)
     {
-        key.transform.SetParent(ItemPoint);
-        key.transform.localPosition = Vector3.zero;
-        _items.Add(key);
+        item.transform.SetParent(ItemPoint);
+        item.transform.localPosition = Vector3.zero;
+        _items.Add(item);
         _currentItemIndex = _items.Count - 1;
         ToggleEquippedItem();
+
+        var collider = item.gameObject.GetComponent<Collider2D>();
+        if (collider != null)
+            collider.enabled = false;
     }
 }
