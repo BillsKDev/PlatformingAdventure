@@ -20,7 +20,7 @@ public class Laser : MonoBehaviour
         _lineRenderer.SetPosition(0, transform.position);
 
         var endPoint = (Vector2)transform.position + (_direction * _distance);
-        RaycastHit2D firstThing = Physics2D.Raycast(transform.position, _direction, _distance);
+        var firstThing = Physics2D.Raycast(transform.position, _direction, _distance);
         if (firstThing.collider)
             endPoint = firstThing.point;
 
@@ -44,7 +44,7 @@ public class Laser : MonoBehaviour
 
         var endPoint = (Vector2)transform.position + (_direction * _distance);
 
-        RaycastHit2D firstThing = Physics2D.Raycast(transform.position, _direction, _distance);
+        var firstThing = Physics2D.Raycast(transform.position, _direction, _distance);
         if (firstThing.collider)
         {
             endPoint = firstThing.point;
