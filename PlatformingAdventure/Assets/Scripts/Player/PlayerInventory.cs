@@ -9,12 +9,14 @@ public class PlayerInventory : MonoBehaviour
     IItem EquippedItem => _items.Count >= _currentItemIndex ? _items[_currentItemIndex] : null;
     List<IItem> _items = new List<IItem>();
     PlayerInput _playerInput;
+    Animator _animator;
 
     int _currentItemIndex = 0;
 
     void Awake()
     {
         _playerInput = GetComponent<PlayerInput>();
+        _animator = GetComponentInChildren<Animator>();
         _playerInput.actions["Fire"].performed += UseEquippedItem;
         _playerInput.actions["EquipNext"].performed += EquipNext;
 
@@ -40,6 +42,7 @@ public class PlayerInventory : MonoBehaviour
     {
         if (EquippedItem != null)
             EquippedItem.Use();
+        _animator.SetTrigger("Fire");
     }
 
     public void Pickup(IItem item)

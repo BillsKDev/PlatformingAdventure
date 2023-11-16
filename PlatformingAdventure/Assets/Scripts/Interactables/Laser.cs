@@ -55,9 +55,9 @@ public class Laser : MonoBehaviour
             var laserDamageable = firstThing.collider.GetComponent<ITakeLaserDamage>();
             if (laserDamageable != null)
                 laserDamageable.TakeLaserDamage();
-            else
-                _laserBurst.enabled = false;
         }
+        else
+            _laserBurst.enabled = false;
         _lineRenderer.SetPosition(1, endPoint);
     }
 }

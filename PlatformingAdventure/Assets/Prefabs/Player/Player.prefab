@@ -398,7 +398,6 @@ GameObject:
   - component: {fileID: 2179086835153813229}
   - component: {fileID: 3789098872433109520}
   - component: {fileID: 2676503651173592700}
-  - component: {fileID: 4619452415547211910}
   - component: {fileID: 4497738216800742315}
   - component: {fileID: 6872942746756048759}
   - component: {fileID: 2692607445788739013}
@@ -508,114 +507,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &4619452415547211910
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8463712629244373872}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 2}
-    newSize: {x: 1, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.234375, y: -1}
-      - {x: 0.2734375, y: -0.8046875}
-      - {x: 0.3359375, y: -0.8046875}
-      - {x: 0.4140625, y: -0.75}
-      - {x: 0.40625, y: -0.6640625}
-      - {x: 0.359375, y: -0.5546875}
-      - {x: 0.3046875, y: -0.5234375}
-      - {x: 0.375, y: -0.4453125}
-      - {x: 0.40625, y: -0.3671875}
-      - {x: 0.4140625, y: -0.3203125}
-      - {x: 0.4140625, y: -0.171875}
-      - {x: 0.40625, y: -0.1015625}
-      - {x: 0.375, y: -0.0390625}
-      - {x: 0.3359375, y: 0.0234375}
-      - {x: 0.2109375, y: 0.15625}
-      - {x: 0.0859375, y: 0.1875}
-      - {x: -0.1171875, y: 0.1875}
-      - {x: -0.2421875, y: 0.1328125}
-      - {x: -0.3828125, y: -0.015625}
-      - {x: -0.4296875, y: -0.09375}
-      - {x: -0.4296875, y: -0.3125}
-      - {x: -0.421875, y: -0.390625}
-      - {x: -0.34375, y: -0.5078125}
-      - {x: -0.40625, y: -0.609375}
-      - {x: -0.421875, y: -0.75}
-      - {x: -0.390625, y: -0.78125}
-      - {x: -0.3203125, y: -0.7578125}
-      - {x: -0.2578125, y: -0.828125}
-      - {x: -0.25, y: -1}
-      - {x: -0.1171875, y: -1}
-      - {x: -0.0625, y: -0.90625}
-      - {x: 0.0859375, y: -0.9296875}
-      - {x: 0.1015625, y: -1}
-    - - {x: -0.3125, y: -0.3515625}
-      - {x: -0.3203125, y: -0.3046875}
-      - {x: -0.3203125, y: -0.1640625}
-      - {x: -0.3046875, y: -0.125}
-      - {x: -0.2578125, y: -0.03125}
-      - {x: -0.203125, y: 0.0234375}
-      - {x: -0.171875, y: 0.0390625}
-      - {x: -0.078125, y: 0.078125}
-      - {x: 0.0546875, y: 0.0859375}
-      - {x: 0.0625, y: 0.078125}
-      - {x: 0.09375, y: 0.0703125}
-      - {x: 0.1875, y: 0.0234375}
-      - {x: 0.296875, y: -0.1171875}
-      - {x: 0.3046875, y: -0.1640625}
-      - {x: 0.3125, y: -0.3046875}
-      - {x: 0.3046875, y: -0.3125}
-      - {x: 0.2734375, y: -0.3984375}
-      - {x: 0.28125, y: -0.125}
-      - {x: 0.2109375, y: -0.015625}
-      - {x: 0.1484375, y: 0.03125}
-      - {x: 0.09375, y: 0.0546875}
-      - {x: 0.0234375, y: 0.0703125}
-      - {x: -0.0390625, y: 0.0703125}
-      - {x: -0.109375, y: 0.0546875}
-      - {x: -0.1640625, y: 0.03125}
-      - {x: -0.25, y: -0.0546875}
-      - {x: -0.28125, y: -0.1171875}
-      - {x: -0.296875, y: -0.171875}
-      - {x: -0.2890625, y: -0.4140625}
-      - {x: -0.28125, y: -0.40625}
-  m_UseDelaunayMesh: 0
 --- !u!114 &4497738216800742315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -811,7 +702,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8463712629244373872}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:

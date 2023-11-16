@@ -104,8 +104,9 @@ public class Player : MonoBehaviour
         var desiredHorizontal = horizontalInput * _maxHorizontalSpeed;
         var acceleration = IsOnSnow ? _snowAcceleration : _acceleration;
 
-        _animator.SetBool("Duck", verticalInput < 0 && Mathf.Abs(verticalInput) > Mathf.Abs(horizontalInput));
-        var isDucking = _animator.GetBool("IsDucking");
+        _animator.SetBool("Duck", verticalInput < -0 && Mathf.Abs(verticalInput) > Mathf.Abs(horizontalInput));
+
+        var isDucking = _animator.GetBool("Duck");
         if (isDucking)
             desiredHorizontal = 0;
 

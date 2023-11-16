@@ -10,6 +10,7 @@ public class LaserSwitch : MonoBehaviour
     [SerializeField] UnityEvent _off;
 
     SpriteRenderer _spriteRenderer;
+    Laser _laser;
     bool _isOn;
 
     void Awake()

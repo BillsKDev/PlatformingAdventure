@@ -3335,7 +3335,9 @@ MonoBehaviour:
   _delayBeforeDamage: 1.5
   _lightningAnimationTime: 2
   _delayBetweenLightning: 2.5
+  _delayBetweenStrikes: 0.25
   _lightningRadius: 1
+  _numberOfLightnings: 1
   _playerLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -3499,7 +3501,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7197896711716325537, guid: e36b000d7e9498a40b8e7d12e3ece215, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4
+      value: 8.5
       objectReference: {fileID: 0}
     - target: {fileID: 7197896711716325537, guid: e36b000d7e9498a40b8e7d12e3ece215, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5427,7 +5429,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2626026980210511071, guid: f9cd07dd9a892dd4b97a848047169627, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.0413747
+      value: -4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5672976087314960924, guid: f9cd07dd9a892dd4b97a848047169627, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6641498677509396360, guid: f9cd07dd9a892dd4b97a848047169627, type: 3}
       propertyPath: m_Name
