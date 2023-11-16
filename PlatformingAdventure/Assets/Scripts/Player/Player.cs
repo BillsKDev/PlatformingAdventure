@@ -75,6 +75,15 @@ public class Player : MonoBehaviour
     {
         UpdateGrounding();
 
+        if (GameManager.CinematicPlaying == false)
+            UpdateMovement();
+
+        UpdateAnimation();
+        UpdateDirection();
+    }
+
+    void UpdateMovement()
+    {
         var input = _playerInput.actions["Move"].ReadValue<Vector2>();
         var horizontalInput = input.x;
         var verticalInput = input.y;
@@ -118,9 +127,6 @@ public class Player : MonoBehaviour
                 _horizontal = desiredHorizontal;
         }
         _rb.velocity = new Vector2(_horizontal, vertical);
-
-        UpdateAnimation();
-        UpdateDirection();
     }
 
     void UpdateGrounding()

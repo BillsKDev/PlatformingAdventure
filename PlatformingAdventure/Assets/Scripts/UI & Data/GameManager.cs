@@ -9,9 +9,12 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] GameData _gameData;
     public static GameManager Instance { get; private set; }
+    public static bool CinematicPlaying { get; private set; }
     public List<string> AllGameNames = new List<string>();
 
     PlayerInputManager _playerInputManager;
+
+    public void ToggleCinematic(bool cinematicPlaying) => CinematicPlaying = cinematicPlaying;
 
     void Awake()
     {
