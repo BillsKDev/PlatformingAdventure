@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class BeeEncounter : MonoBehaviour
+public class BeeEncounter : MonoBehaviour, ITakeDamage
 {
     [SerializeField] List<Transform> _lightnings;
     [SerializeField] float _delayBeforeDamage = 1.5f;
@@ -11,11 +11,21 @@ public class BeeEncounter : MonoBehaviour
     [SerializeField] float _delayBetweenLightning = 1f;
     [SerializeField] float _delayBetweenStrikes = 0.25f;
     [SerializeField] float _lightningRadius = 1f;
+    [SerializeField] float _minIdleTime = 1f;
+    [SerializeField] float _maxIdleTime = 2f;
     [SerializeField] int _numberOfLightnings = 1;
+    [SerializeField] GameObject _bee;
+    [SerializeField] GameObject _beeLaser;
+    [SerializeField] Animator _animator;
     [SerializeField] LayerMask _playerLayer;
+    [SerializeField] Transform[] _beeDestinations;
 
     Collider2D[] _playerHitResults = new Collider2D[10];
     List<Transform> _activeLightnings;
+
+    int _health = 5;
+    bool _shotStarted;
+    bool _shotFinished;
 
     void OnValidate()
     {
@@ -23,9 +33,49 @@ public class BeeEncounter : MonoBehaviour
             _delayBeforeDamage = _lightningAnimationTime;
     }
 
-    void OnEnable() => StartCoroutine(StartEncounter());
+    void OnEnable()
+    {
+        StartCoroutine(StartLightning());
+        StartCoroutine(StartMovement());
+        var wrapper = GetComponentInChildren<ShootAnimationWrapper>();
+        wrapper.OnShoot += () => _shotStarted = true;
+        wrapper.OnReload += () => _shotFinished = true;
+    }
 
-    IEnumerator StartEncounter()
+    IEnumerator StartMovement()
+    {
+        _beeLaser.SetActive(false);
+        GrabBag<Transform> grabBag = new GrabBag<Transform>(_beeDestinations);
+
+        while (true)
+        {
+            var destinations = grabBag.Grab();
+            if (destinations == null) yield break;
+
+            _animator.SetBool("Move", true);
+
+            while (Vector2.Distance(_bee.transform.position, destinations.position) > 0.1f)
+            {
+                _bee.transform.position = Vector2.MoveTowards(_bee.transform.position, destinations.position, Time.deltaTime);
+                yield return null;
+            }
+
+            _animator.SetBool("Move", false);
+
+            yield return new WaitForSeconds(UnityEngine.Random.Range(_minIdleTime, _maxIdleTime));
+            _animator.SetTrigger("Fire");
+
+            yield return new WaitUntil(() => _shotStarted);
+            _shotStarted = false;
+            _beeLaser.SetActive(true);
+
+            yield return new WaitUntil(() => _shotFinished);
+            _shotFinished = false;
+            _beeLaser.SetActive(false);
+        }
+    }
+
+    IEnumerator StartLightning()
     {
         foreach (var lightnings in _lightnings)
             lightnings.gameObject.SetActive(false);
@@ -78,6 +128,16 @@ public class BeeEncounter : MonoBehaviour
         for (int i = 0; i < hits; i++)
         {
             _playerHitResults[i].GetComponent<Player>().TakeDamage(Vector3.zero);
+        }
+    }
+
+    public void TakeDamage()
+    {
+        _health--;
+
+        if (_health > 0)
+        {
+            _bee.SetActive(false);
         }
     }
 }
