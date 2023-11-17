@@ -2,14 +2,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInventory : MonoBehaviour
+public class PlayerInventory : MonoBehaviour, IBind<PlayerData>
 {
     [SerializeField] Transform ItemPoint;
 
-    IItem EquippedItem => _items.Count >= _currentItemIndex ? _items[_currentItemIndex] : null;
-    List<IItem> _items = new List<IItem>();
+    Item EquippedItem => _items.Count >= _currentItemIndex ? _items[_currentItemIndex] : null;
+    List<Item> _items = new List<Item>();
     PlayerInput _playerInput;
     Animator _animator;
+    PlayerData _data;
 
     int _currentItemIndex = 0;
 
@@ -20,8 +21,8 @@ public class PlayerInventory : MonoBehaviour
         _playerInput.actions["Fire"].performed += UseEquippedItem;
         _playerInput.actions["EquipNext"].performed += EquipNext;
 
-        foreach (var item in GetComponentsInChildren<IItem>())
-            Pickup(item);
+        foreach (var item in GetComponentsInChildren<Item>())
+            Pickup(item, false);
     }
 
     void OnDestroy()
@@ -51,7 +52,7 @@ public class PlayerInventory : MonoBehaviour
         _animator.SetTrigger("Fire");
     }
 
-    public void Pickup(IItem item)
+    public void Pickup(Item item, bool isNew = false)
     {
         item.transform.SetParent(ItemPoint);
         item.transform.localPosition = Vector3.zero;
@@ -62,5 +63,25 @@ public class PlayerInventory : MonoBehaviour
         var collider = item.gameObject.GetComponent<Collider2D>();
         if (collider != null)
             collider.enabled = false;
+
+        if (isNew && _data.Items.Contains(item.name) == false)
+            _data.Items.Add(item.name);
+    }
+
+    public void Bind(PlayerData data)
+    {
+        _data = data;
+        foreach (var itemName  in _data.Items)
+        {
+            var itemGameObject = GameObject.Find(itemName);
+            if (itemGameObject != null && itemGameObject.TryGetComponent<Item>(out var item))
+                Pickup(item);
+            else
+            {
+                item = GameManager.Instance.GetItem(itemName);
+                if (item != null)
+                    Pickup(item);
+            }
+        }
     }
 }

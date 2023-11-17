@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
 
             Bind<Coin, CoinData>(levelData.CoinDatas);
             Bind<LaserSwitch, LaserSwitchData>(levelData.LaserSwitchDatas);
+            Bind<PlayerInventory, PlayerData>(_gameData.PlayerDatas);
 
             var allPlayers = FindObjectsOfType<Player>();
             foreach (var player in allPlayers)
@@ -153,6 +154,19 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetString("AllGameNames", commaSeperatedGameNames);
         PlayerPrefs.Save();
     }
+
+    public Item GetItem(string itemName)
+    {
+        string prefabName = itemName.Substring(0, itemName.IndexOf("."));
+        var prefab = _allItems.FirstOrDefault(t => t.name == prefabName);
+
+        if (prefab == null) return null;
+
+        var newInstance = Instantiate(prefab);
+        newInstance.name = prefabName;
+        return newInstance;
+    }
+    public List<Item> _allItems;
 }
 
 public interface INamed

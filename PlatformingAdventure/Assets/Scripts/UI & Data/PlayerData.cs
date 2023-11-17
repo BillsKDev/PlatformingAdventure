@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class PlayerData
+public class PlayerData : INamed
 {
+    public List<string> Items = new List<string>();
+    [field: SerializeField] public string Name { get; set; }
     public int Coins;
     public int Health = 6;
     public Vector2 Position;
