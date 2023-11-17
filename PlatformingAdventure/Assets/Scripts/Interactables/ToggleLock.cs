@@ -11,7 +11,6 @@ public class ToggleLock : MonoBehaviour
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _unlocked = false;
-        _spriteRenderer.color = Color.gray;
     }
 
     public void Toggle()
