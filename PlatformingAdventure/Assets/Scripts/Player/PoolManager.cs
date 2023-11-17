@@ -5,6 +5,7 @@ public class PoolManager : MonoBehaviour
 {
     [SerializeField] BlasterShot _blasterShotPrefab;
     [SerializeField] ReturnToPool _blasterImpactExplosionPrefab;
+    [SerializeField] ReturnToPool _spikePrefab;
 
     public static PoolManager Instance { get; private set; }
 
@@ -24,6 +25,16 @@ public class PoolManager : MonoBehaviour
             {
                 var shot = Instantiate(_blasterImpactExplosionPrefab);
                 shot.SetPool(_blasterImpactExplosionPool);
+                return shot;
+            },
+            t => t.gameObject.SetActive(true),
+            t => t.gameObject.SetActive(false));
+
+        _spikePool = new ObjectPool<ReturnToPool>(
+            () =>
+            {
+                var shot = Instantiate(_spikePrefab);
+                shot.SetPool(_spikePool);
                 return shot;
             },
             t => t.gameObject.SetActive(true),
@@ -49,4 +60,6 @@ public class PoolManager : MonoBehaviour
         explosion.transform.position = point;
         return explosion;
     }
+
+    public ReturnToPool GetSpike() => _spikePool.Get();
 }

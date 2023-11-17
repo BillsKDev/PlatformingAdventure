@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3133816279115207470}
   - component: {fileID: 7700243033065053914}
   - component: {fileID: 6243052460372947750}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +209,9 @@ GameObject:
   - component: {fileID: 881804283890871357}
   - component: {fileID: 1993131030578162275}
   - component: {fileID: 2531675093300673060}
-  m_Layer: 0
+  - component: {fileID: 6504024063543724331}
+  - component: {fileID: -9038264741818368437}
+  m_Layer: 7
   m_Name: bullet_spike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -247,7 +249,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -258,7 +260,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!60 &2531675093300673060
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -309,6 +311,32 @@ PolygonCollider2D:
       - {x: 0.48912203, y: -0.14529276}
       - {x: 1.1932249, y: 0.013032019}
   m_UseDelaunayMesh: 0
+--- !u!114 &6504024063543724331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4391780747385159325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c69c7dacb56b7d4682b4e6b1244f5d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _delay: 5
+--- !u!114 &-9038264741818368437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4391780747385159325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e50328ec0cc964a81bb142e70f8c39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ignoreFromTop: 0
 --- !u!1 &8305717437889663908
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,7 +347,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6018392922874869746}
   - component: {fileID: 9025929669660431553}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: base
   m_TagString: Untagged
   m_Icon: {fileID: 0}

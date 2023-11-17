@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public static bool IsLoading { get; private set; }
 
     public List<string> AllGameNames = new List<string>();
+    public List<Item> _allItems;
 
     PlayerInputManager _playerInputManager;
 
@@ -157,7 +158,7 @@ public class GameManager : MonoBehaviour
 
     public Item GetItem(string itemName)
     {
-        string prefabName = itemName.Substring(0, itemName.IndexOf("."));
+        string prefabName = itemName.Substring(0, itemName.IndexOf("_"));
         var prefab = _allItems.FirstOrDefault(t => t.name == prefabName);
 
         if (prefab == null) return null;
@@ -166,7 +167,6 @@ public class GameManager : MonoBehaviour
         newInstance.name = prefabName;
         return newInstance;
     }
-    public List<Item> _allItems;
 }
 
 public interface INamed
