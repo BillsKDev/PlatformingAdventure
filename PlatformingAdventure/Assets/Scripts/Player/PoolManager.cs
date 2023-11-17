@@ -10,6 +10,7 @@ public class PoolManager : MonoBehaviour
 
     ObjectPool<BlasterShot> _blasterShotPool;
     ObjectPool<ReturnToPool> _blasterImpactExplosionPool;
+    ObjectPool<ReturnToPool> _spikePool;
 
     void Awake()
     {
