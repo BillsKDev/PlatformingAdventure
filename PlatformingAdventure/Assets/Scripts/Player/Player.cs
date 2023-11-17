@@ -13,6 +13,10 @@ public class Player : MonoBehaviour
     [SerializeField] float _acceleration = 10f;
     [SerializeField] float _snowAcceleration = 1f;
     [SerializeField] float _knockBackVelocity = 400f;
+    [SerializeField] float _wallDetectionDistance = 0.5f;
+    [SerializeField] float _groundDetectionOffset = 1.01f;
+    [SerializeField] float _buffer = 0.1f;
+    [SerializeField] int _wallCheckPoints = 3;
     [SerializeField] Sprite _jumpSprite;
     [SerializeField] LayerMask _layerMask;
     [SerializeField] AudioClip _coinSFX;
@@ -33,28 +37,50 @@ public class Player : MonoBehaviour
     AudioSource _audioSource;
     PlayerInput _playerInput;
     PlayerData _playerData = new PlayerData();
+    RaycastHit2D[] _results = new RaycastHit2D[100];
 
     float _jumpEndTime;
     float _horizontal;
     int _jumpsRemaining;
     bool IsGrounded;
     bool IsOnSnow;
+    bool IsDucking;
+    bool IsTouchingRightWall;
+    bool IsTouchingLeftWall;
 
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
-        Vector2 origin = new Vector2(transform.position.x, transform.position.y - spriteRenderer.bounds.extents.y);
+        Vector2 origin = new Vector2(transform.position.x, transform.position.y - _groundDetectionOffset);
         Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
 
         //Draw left foot
-        origin = new Vector2(transform.position.x - _footOffset, transform.position.y - spriteRenderer.bounds.extents.y);
+        origin = new Vector2(transform.position.x - _footOffset, transform.position.y - _groundDetectionOffset);
         Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
 
         //Draw right foot
-        origin = new Vector2(transform.position.x + _footOffset, transform.position.y - spriteRenderer.bounds.extents.y);
+        origin = new Vector2(transform.position.x + _footOffset, transform.position.y - _groundDetectionOffset);
         Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
+
+        DrawGizmosForSide(Vector2.left);
+        DrawGizmosForSide(Vector2.right);
+    }
+
+    void DrawGizmosForSide(Vector2 direction)
+    {
+        var activeCollider = IsDucking ? _duckCollider : _standingCollider;
+        float colliderHeight = activeCollider.bounds.size.y - 2 * _buffer;
+        float segmentSize = colliderHeight / (_wallCheckPoints - 1);
+
+        for (int i = 0; i < _wallCheckPoints; i++)
+        {
+            var origin = transform.position - new Vector3(0, activeCollider.bounds.size.y / 2f, 0);
+            origin += new Vector3(0, _buffer + segmentSize * i, 0);
+            origin += (Vector3)direction * _wallDetectionDistance;
+            Gizmos.DrawWireSphere(origin, 0.05f);
+        }
     }
 
     void Awake()
@@ -74,12 +100,43 @@ public class Player : MonoBehaviour
     void Update()
     {
         UpdateGrounding();
+        UpdateWallTouching();
 
         if (GameManager.CinematicPlaying == false)
             UpdateMovement();
 
         UpdateAnimation();
         UpdateDirection();
+    }
+
+    bool CheckForWall(Vector2 direction)
+    {
+        var activeCollider = IsDucking ? _duckCollider : _standingCollider;
+        float colliderHeight = activeCollider.bounds.size.y - 2 * _buffer;
+        float segmentSize = colliderHeight / (_wallCheckPoints - 1);
+
+        for (int i = 0; i < _wallCheckPoints; i++)
+        {
+            var origin = transform.position - new Vector3(0, activeCollider.bounds.size.y / 2f, 0);
+            origin += new Vector3(0, _buffer + segmentSize * i, 0);
+            origin += (Vector3)direction * _wallDetectionDistance;
+
+            int hits = Physics2D.Raycast(origin, direction, new ContactFilter2D() { layerMask = _layerMask }, _results, 0.1f);
+
+            for (int hitIndex = 0; hitIndex < hits; hitIndex++)
+            {
+                var hit = _results[hitIndex];
+                if (hit.collider && hit.collider.isTrigger == false) return true;
+            }
+
+        }
+        return false;
+    }
+
+    void UpdateWallTouching()
+    {
+        IsTouchingRightWall = CheckForWall(Vector2.right);
+        IsTouchingLeftWall = CheckForWall(Vector2.left);
     }
 
     void UpdateMovement()
@@ -106,12 +163,12 @@ public class Player : MonoBehaviour
 
         _animator.SetBool("Duck", verticalInput < -0 && Mathf.Abs(verticalInput) > Mathf.Abs(horizontalInput));
 
-        var isDucking = _animator.GetBool("Duck");
-        if (isDucking)
+        IsDucking = _animator.GetBool("Duck");
+        if (IsDucking)
             desiredHorizontal = 0;
 
-        _duckCollider.enabled = isDucking;
-        _standingCollider.enabled = !isDucking;
+        _duckCollider.enabled = IsDucking;
+        _standingCollider.enabled = !IsDucking;
 
         //_horizontal = Mathf.Lerp(_horizontal, desiredHorizontal, Time.deltaTime * groundAcceleration);
 
@@ -127,6 +184,12 @@ public class Player : MonoBehaviour
             if (_horizontal < desiredHorizontal)
                 _horizontal = desiredHorizontal;
         }
+
+        if (desiredHorizontal > 0 && IsTouchingRightWall)
+            _horizontal = 0;
+        if (desiredHorizontal < 0 && IsTouchingLeftWall)
+            _horizontal = 0;
+
         _rb.velocity = new Vector2(_horizontal, vertical);
     }
 
@@ -136,35 +199,34 @@ public class Player : MonoBehaviour
         IsOnSnow = false;
 
         //Check center
-        Vector2 origin = new Vector2(transform.position.x, transform.position.y - _spriteRenderer.bounds.extents.y);
-        RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _layerMask);
-        if (hit.collider)
-        {
-            IsGrounded = true;
-            IsOnSnow = hit.collider.CompareTag("Snow");
-        }
+        Vector2 origin = new Vector2(transform.position.x, transform.position.y - _groundDetectionOffset);
+        CheckGrounding(origin);
 
         //Check left
-        origin = new Vector2(transform.position.x - _footOffset, transform.position.y - _spriteRenderer.bounds.extents.y);
-        hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _layerMask);
-        if (hit.collider)
-        {
-            IsGrounded = true;
-            IsOnSnow = hit.collider.CompareTag("Snow");
-        }
+        origin = new Vector2(transform.position.x - _footOffset, transform.position.y - _groundDetectionOffset);
+        CheckGrounding(origin);
 
         //Check right
-        origin = new Vector2(transform.position.x + _footOffset, transform.position.y - _spriteRenderer.bounds.extents.y);
-        hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _layerMask);
-        if (hit.collider)
-        {
-            IsGrounded = true;
-            IsOnSnow = hit.collider.CompareTag("Snow");
-        }
+        origin = new Vector2(transform.position.x + _footOffset, transform.position.y - _groundDetectionOffset);
+        CheckGrounding(origin);
 
         if (IsGrounded && _rb.velocity.y <= 0)
             _jumpsRemaining = 2;
 
+    }
+
+    void CheckGrounding(Vector2 origin)
+    {
+        int hits = Physics2D.Raycast(origin, Vector2.down, new ContactFilter2D() { layerMask = _layerMask, useTriggers = true }, _results, 0.1f);
+
+        for (int i = 0; i < hits; i++)
+        {
+            var hit = _results[i];
+            if (!hit.collider) continue;
+            if (hit.collider && hit.collider.isTrigger && hit.collider.GetComponent<Water>() == null) continue;
+            IsGrounded = true;
+            IsOnSnow |= hit.collider.CompareTag("Snow");
+        }
     }
 
     void UpdateAnimation()
