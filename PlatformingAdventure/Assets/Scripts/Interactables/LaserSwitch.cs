@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,7 +12,7 @@ public class LaserSwitch : MonoBehaviour
 
     SpriteRenderer _spriteRenderer;
     Laser _laser;
-    bool _isOn;
+    LaserSwitchData _data;
 
     void Awake()
     {
@@ -34,19 +35,39 @@ public class LaserSwitch : MonoBehaviour
 
     void TurnOn()
     {
-        if (_isOn)
+        if (_data.IsOn)
         {
-            _isOn = false;
-            _spriteRenderer.sprite = _right;
-            _on.Invoke();
+            _data.IsOn = false;
+            UpdateSwitchState();
         }
     }
 
     void TurnOff()
     {
-        if (_isOn == false)
+        if (_data.IsOn == false)
         {
-            _isOn = true;
+            _data.IsOn = true;
+            UpdateSwitchState();
+        }
+    }
+
+    
+
+    public void Bind(LaserSwitchData data)
+    {
+        _data = data;
+        UpdateSwitchState();
+    }
+
+    void UpdateSwitchState()
+    {
+        if (_data.IsOn)
+        {
+            _spriteRenderer.sprite = _left;
+            _on.Invoke();
+        }
+        else
+        {
             _spriteRenderer.sprite = _left;
             _off.Invoke();
         }
