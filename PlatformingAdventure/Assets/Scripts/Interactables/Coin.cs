@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class Coin : MonoBehaviour, IBind<CoinData>
 {
     CoinData _data;
 
@@ -20,4 +20,9 @@ public class Coin : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+}
+
+public interface IBind<T>
+{
+    void Bind(T data);
 }

@@ -29,15 +29,15 @@ public class LevelData
 }
 
 [Serializable]
-public class CoinData
+public class CoinData : INamed
 {
     public bool IsCollected;
-    public string Name;
+    [field : SerializeField] public string Name {  get; set; }
 }
 
 [Serializable]
-public class LaserSwitchData
+public class LaserSwitchData : INamed
 {
     public bool IsOn;
-    public string Name;
+    [field: SerializeField] public string Name { get; set; }
 }

@@ -56,8 +56,8 @@ public class GameManager : MonoBehaviour
                 _gameData.LevelDatas.Add(levelData);
             }
 
-            BindCoins(levelData);
-            BindLaserSwitch(levelData);
+            Bind<Coin, CoinData>(levelData.CoinDatas);
+            Bind<LaserSwitch, LaserSwitchData>(levelData.LaserSwitchDatas);
 
             var allPlayers = FindObjectsOfType<Player>();
             foreach (var player in allPlayers)
@@ -74,35 +74,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void BindCoins(LevelData levelData)
+    void Bind<T, D>(List<D> datas) where T : MonoBehaviour, IBind<D> where D : INamed, new()
     {
-        var allCoins = FindObjectsOfType<Coin>();
-
-        foreach (var coin in allCoins)
+        var instances = FindObjectsOfType<T>();
+        foreach (var instance in instances)
         {
-            var data = levelData.CoinDatas.FirstOrDefault(t => t.Name == coin.name);
+            var data = datas.FirstOrDefault(t => t.Name == instance.name);
             if (data == null)
             {
-                data = new CoinData() { IsCollected = false, Name = coin.name };
-                levelData.CoinDatas.Add(data);
+                data = new D() { Name = instance.name };
+                datas.Add(data);
             }
-            coin.Bind(data);
-        }
-    }
-
-    void BindLaserSwitch(LevelData levelData)
-    {
-        var allLaserSwitch = FindObjectsOfType<LaserSwitch>();
-
-        foreach (var laserSwitch in allLaserSwitch)
-        {
-            var data = levelData.LaserSwitchDatas.FirstOrDefault(t => t.Name == laserSwitch.name);
-            if (data == null)
-            {
-                data = new LaserSwitchData() { IsOn = false, Name = laserSwitch.name };
-                levelData.LaserSwitchDatas.Add(data);
-            }
-            laserSwitch.Bind(data);
+            instance.Bind(data);
         }
     }
 
@@ -170,4 +153,9 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetString("AllGameNames", commaSeperatedGameNames);
         PlayerPrefs.Save();
     }
+}
+
+public interface INamed
+{
+    string Name { get; set; }
 }
