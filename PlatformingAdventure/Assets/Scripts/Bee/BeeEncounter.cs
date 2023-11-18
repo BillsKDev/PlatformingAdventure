@@ -14,16 +14,17 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
     [SerializeField] float _minIdleTime = 1f;
     [SerializeField] float _maxIdleTime = 2f;
     [SerializeField] int _numberOfLightnings = 1;
+    [SerializeField] int _health = 50;
     [SerializeField] GameObject _bee;
     [SerializeField] GameObject _beeLaser;
     [SerializeField] Animator _animator;
+    [SerializeField] Rigidbody2D _beeRigidBody;
     [SerializeField] LayerMask _playerLayer;
     [SerializeField] Transform[] _beeDestinations;
 
     Collider2D[] _playerHitResults = new Collider2D[10];
     List<Transform> _activeLightnings;
 
-    int _health = 5;
     bool _shotStarted;
     bool _shotFinished;
 
@@ -135,9 +136,19 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
     {
         _health--;
 
-        if (_health > 0)
+        if (_health <= 0)
         {
-            _bee.SetActive(false);
+            StopAllCoroutines();
+            _animator.SetBool("Dead", true);
+            _beeRigidBody.bodyType = RigidbodyType2D.Dynamic;
+            foreach (var collider in GetComponentsInChildren<Collider2D>())
+            {
+                collider.gameObject.layer = LayerMask.NameToLayer("Dead");
+            }
+        }
+        else
+        {
+            _animator.SetTrigger("Hit");
         }
     }
 }

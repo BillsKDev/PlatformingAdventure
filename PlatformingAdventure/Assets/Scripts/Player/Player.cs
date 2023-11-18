@@ -126,7 +126,7 @@ public class Player : MonoBehaviour
             origin += new Vector3(0, _buffer + segmentSize * i, 0);
             origin += (Vector3)direction * _wallDetectionDistance;
 
-            int hits = Physics2D.Raycast(origin, direction, new ContactFilter2D() { layerMask = _layerMask }, _results, 0.1f);
+            int hits = Physics2D.Raycast(origin, direction, new ContactFilter2D() { layerMask = _layerMask, useLayerMask = true }, _results, 0.1f);
 
             for (int hitIndex = 0; hitIndex < hits; hitIndex++)
             {
@@ -222,7 +222,7 @@ public class Player : MonoBehaviour
 
     void CheckGrounding(Vector2 origin)
     {
-        int hits = Physics2D.Raycast(origin, Vector2.down, new ContactFilter2D() { layerMask = _layerMask, useTriggers = true }, _results, 0.1f);
+        int hits = Physics2D.Raycast(origin, Vector2.down, new ContactFilter2D() { layerMask = _layerMask, useLayerMask = true, useTriggers = true }, _results, 0.1f);
 
         for (int i = 0; i < hits; i++)
         {
