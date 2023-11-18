@@ -14,11 +14,13 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
     [SerializeField] float _minIdleTime = 1f;
     [SerializeField] float _maxIdleTime = 2f;
     [SerializeField] int _numberOfLightnings = 1;
-    [SerializeField] int _health = 50;
+    [SerializeField] int _maxHealth = 50;
     [SerializeField] GameObject _bee;
     [SerializeField] GameObject _beeLaser;
+    [SerializeField] Water _water;
     [SerializeField] Animator _animator;
     [SerializeField] Rigidbody2D _beeRigidBody;
+    [SerializeField] Collider2D _floodGroundCollider;
     [SerializeField] LayerMask _playerLayer;
     [SerializeField] Transform[] _beeDestinations;
 
@@ -27,6 +29,7 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
 
     bool _shotStarted;
     bool _shotFinished;
+    int _currentHealth;
 
     void OnValidate()
     {
@@ -36,6 +39,7 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
 
     void OnEnable()
     {
+        _currentHealth = _maxHealth;
         StartCoroutine(StartLightning());
         StartCoroutine(StartMovement());
         var wrapper = GetComponentInChildren<ShootAnimationWrapper>();
@@ -134,14 +138,20 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
 
     public void TakeDamage()
     {
-        _health--;
+        _currentHealth--;
 
-        if (_health <= 0)
+        if(_currentHealth == _maxHealth / 2)
+        {
+            StartCoroutine(ToggleFlood(true));
+        }
+
+        if (_currentHealth <= 0)
         {
             StopAllCoroutines();
+            StopCoroutine(ToggleFlood(false));
             _animator.SetBool("Dead", true);
             _beeRigidBody.bodyType = RigidbodyType2D.Dynamic;
-            foreach (var collider in GetComponentsInChildren<Collider2D>())
+            foreach (var collider in _bee.GetComponentsInChildren<Collider2D>())
             {
                 collider.gameObject.layer = LayerMask.NameToLayer("Dead");
             }
@@ -150,5 +160,24 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
         {
             _animator.SetTrigger("Hit");
         }
+    }
+
+    IEnumerator ToggleFlood(bool enableFlood)
+    {
+        float initialWaterY = _water.transform.position.y;
+        var targetWaterY = enableFlood ? initialWaterY + 1 : initialWaterY - 1;
+        float duration = 1f;
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float progress = elapsedTime / duration;
+            float y = Mathf.Lerp(initialWaterY, targetWaterY, progress);
+            var destination = new Vector3(_water.transform.position.x, y, _water.transform.position.z);
+            _water.transform.position = destination;
+            yield return null;
+        }
+        _floodGroundCollider.enabled = !enableFlood;
+        _water.SetSpeed(enableFlood ? 5f : 0f);
     }
 }

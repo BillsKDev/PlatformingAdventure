@@ -51,14 +51,14 @@ TagManager:
   - name: Player
     uniqueID: 202734449
     locked: 0
-  - name: Water
-    uniqueID: 789905423
-    locked: 0
   - name: Props
     uniqueID: 1995846485
     locked: 0
   - name: Enemies
     uniqueID: 170472105
+    locked: 0
+  - name: Water
+    uniqueID: 789905423
     locked: 0
   - name: Effects
     uniqueID: 1701730763
