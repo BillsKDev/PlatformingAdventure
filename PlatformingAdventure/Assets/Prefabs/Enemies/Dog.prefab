@@ -905,7 +905,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5690994254898346066
 Transform:
   m_ObjectHideFlags: 0
@@ -2740,7 +2740,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dog Laser
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9025929669660431553, guid: 30c14fc3fd5f3f240a65583fabd2b1e7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

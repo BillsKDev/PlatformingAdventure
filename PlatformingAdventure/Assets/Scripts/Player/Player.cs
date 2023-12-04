@@ -20,8 +20,6 @@ public class Player : MonoBehaviour
     [SerializeField] Sprite _jumpSprite;
     [SerializeField] LayerMask _layerMask;
     [SerializeField] LayerMask _waterLayerMask;
-    [SerializeField] AudioClip _coinSFX;
-    [SerializeField] AudioClip _hurtSFX;
     [SerializeField] Collider2D _standingCollider;
     [SerializeField] Collider2D _duckCollider;
 
@@ -158,8 +156,6 @@ public class Player : MonoBehaviour
         {
             _jumpEndTime = Time.time + _jumpDuration;
             _jumpsRemaining--;
-            _audioSource.pitch = _jumpsRemaining > 0 ? 1 : 1.2f;
-            _audioSource.Play();
         }
 
         if (_playerInput.actions["Jump"].ReadValue<float>() > 0 && _jumpEndTime > Time.time)
@@ -266,7 +262,6 @@ public class Player : MonoBehaviour
     public void AddPoint()
     {
         Coins++;
-        _audioSource.PlayOneShot(_coinSFX);
         CoinsChanged?.Invoke();
     }
 
@@ -292,7 +287,6 @@ public class Player : MonoBehaviour
         }
         HealthChanged?.Invoke();
         _rb.AddForce(-hitNormal * _knockBackVelocity);
-        _audioSource.PlayOneShot(_hurtSFX);
     }
 
     public void StopJump()
