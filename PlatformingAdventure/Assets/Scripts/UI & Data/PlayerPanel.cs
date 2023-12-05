@@ -31,13 +31,5 @@ public class PlayerPanel : MonoBehaviour
             Image heart = _hearts[i];
             heart.enabled = i < _player.Health;
         }
-        StartCoroutine(Flash());
-    }
-
-    IEnumerator Flash()
-    {
-        _flashImage.enabled = true;
-        yield return new WaitForSeconds(0.5f);
-        _flashImage.enabled = false;
     }
 }

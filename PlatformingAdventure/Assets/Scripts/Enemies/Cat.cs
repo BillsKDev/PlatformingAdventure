@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Cat : MonoBehaviour
+public class Cat : MonoBehaviour, ITakeDamage
 {
     [SerializeField] CatBomb _catBombPrefab;
     [SerializeField] Transform _firePoint;
@@ -26,5 +26,10 @@ public class Cat : MonoBehaviour
     {
         if (_catBomb == null)
             _catBomb = Instantiate(_catBombPrefab, _firePoint);
+    }
+
+    public void TakeDamage()
+    {
+        gameObject.SetActive(false);
     }
 }

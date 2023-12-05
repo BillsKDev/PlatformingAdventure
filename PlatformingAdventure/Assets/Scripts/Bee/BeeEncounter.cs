@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BeeEncounter : MonoBehaviour, ITakeDamage
 {
@@ -23,13 +24,14 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
     [SerializeField] Collider2D _floodGroundCollider;
     [SerializeField] LayerMask _playerLayer;
     [SerializeField] Transform[] _beeDestinations;
+    [SerializeField] Image _beeHealth;
 
     Collider2D[] _playerHitResults = new Collider2D[10];
     List<Transform> _activeLightnings;
 
     bool _shotStarted;
     bool _shotFinished;
-    int _currentHealth;
+    float _currentHealth;
 
     void OnValidate()
     {
@@ -45,7 +47,21 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
         var wrapper = GetComponentInChildren<ShootAnimationWrapper>();
         wrapper.OnShoot += () => _shotStarted = true;
         wrapper.OnReload += () => _shotFinished = true;
+        StartCoroutine(UpdateHealthUI());
     }
+
+    IEnumerator UpdateHealthUI()
+    {
+        while (true)
+        {
+            float healthPercentage = _currentHealth / (float)_maxHealth;
+
+            _beeHealth.fillAmount = healthPercentage;
+
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
 
     IEnumerator StartMovement()
     {

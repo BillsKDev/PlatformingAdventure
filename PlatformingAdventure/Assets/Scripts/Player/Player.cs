@@ -17,7 +17,6 @@ public class Player : MonoBehaviour
     [SerializeField] float _groundDetectionOffset = 1.01f;
     [SerializeField] float _buffer = 0.1f;
     [SerializeField] int _wallCheckPoints = 3;
-    [SerializeField] Sprite _jumpSprite;
     [SerializeField] LayerMask _layerMask;
     [SerializeField] LayerMask _waterLayerMask;
     [SerializeField] Collider2D _standingCollider;

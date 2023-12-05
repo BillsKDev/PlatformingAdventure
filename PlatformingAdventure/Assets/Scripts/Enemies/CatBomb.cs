@@ -21,5 +21,6 @@ public class CatBomb : MonoBehaviour
         _rb.simulated = true;
         _rb.AddForce(direction * _forceAmount);
         _animator.enabled = true;
+        Destroy(gameObject, 3f);
     }
 }

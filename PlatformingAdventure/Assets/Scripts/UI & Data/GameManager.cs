@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
         string text = PlayerPrefs.GetString(gameName);
         _gameData = JsonUtility.FromJson<GameData>(text);
         if (String.IsNullOrWhiteSpace(_gameData.CurrentLevelName))
-            _gameData.CurrentLevelName = "Level 1";
+            _gameData.CurrentLevelName = "Main Level";
         SceneManager.LoadScene(_gameData.CurrentLevelName);
     }
 
@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("New Game Called");
         _gameData = new GameData();
         _gameData.GameName = DateTime.Now.ToString("G");
-        SceneManager.LoadScene("Level 1");
+        SceneManager.LoadScene("Main Level");
     }
 
     public void DeleteGame(string gameName)
